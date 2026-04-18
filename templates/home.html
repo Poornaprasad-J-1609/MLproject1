@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Math Score Predictor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fc;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        input, select {
+            padding: 8px;
+            width: 100%;
+        }
+
+        button {
+            padding: 12px;
+            background: #2a5298;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 15px;
+            background: #e6f0ff;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: #1e3c72;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>📊 Math Score Predictor</h2>
+
+<form action="/predictidata" method="POST">
+    <div class="grid">
+
+        <!-- Numerical Inputs -->
+        <div>
+            <label>Age</label>
+            <input type="number" name="age" required>
+        </div>
+
+        <div>
+            <label>Sleep Hours</label>
+            <input type="number" step="0.1" name="sleep_hours" required>
+        </div>
+
+        <div>
+            <label>Social Media Hours</label>
+            <input type="number" step="0.1" name="social_media_hours" required>
+        </div>
+
+        <div>
+            <label>Reading Score</label>
+            <input type="number" name="reading_score" required>
+        </div>
+
+        <div>
+            <label>Writing Score</label>
+            <input type="number" name="writing_score" required>
+        </div>
+
+        <div>
+            <label>Science Score</label>
+            <input type="number" name="science_score" required>
+        </div>
+
+        <div>
+            <label>Final Exam Score</label>
+            <input type="number" name="final_exam_score" required>
+        </div>
+
+        <!-- Categorical Inputs -->
+        <div>
+            <label>Gender</label>
+            <select name="gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+        </div>
+
+        <div>
+            <label>Internet Access</label>
+            <select name="internet_access">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+        </div>
+
+        <div>
+            <label>Study Environment</label>
+            <select name="study_environment">
+                <option value="Quiet">Quiet</option>
+                <option value="Moderate">Moderate</option>
+                <option value="Noisy">Noisy</option>
+            </select>
+        </div>
+
+        <div>
+            <label>Pass/Fail</label>
+            <select name="pass_fail">
+                <option value="Pass">Pass</option>
+                <option value="Fail">Fail</option>
+            </select>
+        </div>
+
+        <div class="full-width">
+            <button type="submit">Predict Math Score</button>
+        </div>
+
+    </div>
+</form>
+
+<!-- 🔥 RESULT DISPLAY -->
+{% if results %}
+<div class="result">
+    🎯 Predicted Math Score: {{ results }}
+</div>
+{% endif %}
+
+</body>
+</html>

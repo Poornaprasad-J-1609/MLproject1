@@ -19,7 +19,8 @@ from src.logger import logging
 
 from src.utils import save_object
 from src.utils import evaluate_model
-
+from sklearn.model_selection import GridSearchCV
+from src.utils import evaluate_model_grid_search
 @dataclass
 class ModelTrainerConfig:
    trained_model_file_path = os.path.join('artifacts','model.pkl')
@@ -48,7 +49,60 @@ class ModelTrainer:
             "Adaboost":AdaBoostRegressor()
 
          }
-         model_report:dict=evaluate_model(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,models=models)
+         params = {
+
+        "Random Forest": {
+            "n_estimators": [50, 100, 200],
+            "max_depth": [None, 10, 20, 30],
+            "min_samples_split": [2, 5, 10],
+            "min_samples_leaf": [1, 2, 4]
+        },
+
+        "Decision Tree": {
+            "criterion": ["squared_error", "friedman_mse"],
+            "max_depth": [None, 5, 10, 20],
+            "min_samples_split": [2, 5, 10],
+            "min_samples_leaf": [1, 2, 4]
+        },
+
+        "Gradient boosting": {
+            "n_estimators": [100, 200],
+            "learning_rate": [0.01, 0.1, 0.2],
+            "max_depth": [3, 5, 7],
+            "subsample": [0.8, 1.0]
+        },
+
+        "Linear regression": {
+            # No major hyperparameters (but you can test)
+            "fit_intercept": [True, False]
+        },
+
+        "K-Neighbours": {
+            "n_neighbors": [3, 5, 7, 9],
+            "weights": ["uniform", "distance"],
+            "p": [1, 2]  # Manhattan vs Euclidean
+        },
+
+        "XGB": {
+            "n_estimators": [100, 200],
+            "learning_rate": [0.01, 0.1],
+            "max_depth": [3, 5, 7],
+            "subsample": [0.8, 1.0],
+            "colsample_bytree": [0.8, 1.0]
+        },
+
+        "CatBoosting Classifier": {
+            "iterations": [100, 200],
+            "learning_rate": [0.01, 0.1],
+            "depth": [4, 6, 8]
+        },
+
+        "Adaboost": {
+            "n_estimators": [50, 100, 200],
+            "learning_rate": [0.01, 0.1, 1]
+        }
+      }
+         model_report:dict=evaluate_model_grid_search(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,models=models,params=params)
          best_model_score = max(sorted(model_report.values()))
          best_model_name = list(model_report.keys())[list(model_report.values()).index(best_model_score)]   
          best_model = models[best_model_name]  
