@@ -1,3 +1,4 @@
+'''
 from flask import Flask,request,render_template
 import numpy as np
 import pandas as pd
@@ -37,4 +38,19 @@ def predict_datapoint():
         return render_template('home.html',results=results[0])
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0")'''
+from flask import Flask
+
+application = Flask(__name__)
+app = application
+
+@app.route('/')
+def index():
+    return "App is running successfully"
+
+@app.route('/predictidata', methods=['GET','POST'])
+def predict_datapoint():
+    return "Predict route working"
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
